@@ -1,0 +1,34 @@
+name: Kontent.ai Deployment
+
+on:
+  push:
+    branches:
+      - main  # or your deployment branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'  # Adjust the Node.js version as needed
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Export data from Kontent.ai environment
+      run: npx @kontent-ai/data-ops@latest export --environmentId=$SOURCE_ENV_ID --apiKey=$SOURCE_API_KEY
+      env:
+        SOURCE_ENV_ID: ${{ secrets.SOURCE_ENV_ID }}
+        SOURCE_API_KEY: ${{ secrets.SOURCE_API_KEY }}
+
+    - name: Import data into Kontent.ai target environment
+      run: npx @kontent-ai/data-ops@latest import --fileName=data.zip --environmentId=$TARGET_ENV_ID --apiKey=$TARGET_API_KEY
+      env:
+        TARGET_ENV_ID: ${{ secrets.TARGET_ENV_ID }}
+        TARGET_API_KEY: ${{ secrets.TARGET_API_KEY }}
