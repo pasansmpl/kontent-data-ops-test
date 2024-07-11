@@ -1,0 +1,12 @@
+{
+    "name": "kontent-data-ops-test",
+    "version": "1.0.0",
+    "scripts": {
+      "kontent-export": "npx @kontent-ai/data-ops@latest export --environmentId=$SOURCE_ENV_ID --apiKey=$SOURCE_API_KEY",
+      "kontent-import": "npx @kontent-ai/data-ops@latest import --fileName=data.zip --environmentId=$TARGET_ENV_ID --apiKey=$TARGET_API_KEY"
+    },
+    "dependencies": {
+      "@kontent-ai/data-ops": "latest"
+    }
+  }
+  
